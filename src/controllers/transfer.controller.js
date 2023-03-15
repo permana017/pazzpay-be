@@ -20,8 +20,9 @@ const transferController = {
     }
     try {
         const resultUserById = await usersModel.readDetail(request.sender_id)
-        console.log(resultUserById)
-        if(resultUserById.saldo < request.amount) {
+        // console.log("saldo awal",resultUserById.saldo)
+
+        if(request.amount >= resultUserById.saldo) {
             return res.status(500).send({
                 message: 'saldo tidak cukup'
             })

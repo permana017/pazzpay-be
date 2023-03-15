@@ -8,7 +8,7 @@ const transferModel = {
       console.log(sender_id);
       return new Promise((resolve, reject) => {
           db.query(
-              `SELECT * from transfers WHERE sender_id='${sender_id}'`,
+              `SELECT * from transfers WHERE sender_id='${sender_id}' OR reciever_id='${sender_id}'`,
               (err, result) => {
                   if (err) {
                       return reject(err.message)
@@ -19,7 +19,7 @@ const transferModel = {
           )
       })
   },
-  updateBalance: ({sender_id,reciever_id, amount, created_at, reciever_name, reciever_phone}) => {
+    updateBalance: ({sender_id,reciever_id, amount, created_at, reciever_name, reciever_phone}) => {
     return new Promise((resolve, reject) => {
         db.query(
             `UPDATE users SET saldo = saldo - $1 WHERE user_id = $2`,

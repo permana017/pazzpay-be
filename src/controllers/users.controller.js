@@ -44,18 +44,24 @@ const usersController = {
     update: (req, res) => {
         // Id product
         const id = req.params.id
+
         
         return usersModel.update(req, id)
         .then((result) => {
-            console.log(result[0].img);
-            if (result[0].img!= null){
-                for (let i = 0; i < result.length; i++) {
-                    unlink(`public/uploads/images/${result[i].img}`, (err) => {
-                        if (err) throw err;
+            // console.log("image send",req?.file?.filename);            
+            if (result[0].img !== "null" || result[0].img !== null ||  result[0].img !== ""){
+                if (typeof req?.file != "undefined") {
+                    unlink(`public/uploads/images/${result[0].img}`, (err) => {
+                        if(err) console.log('file tidak ada ' , err.message);
                     });
+                    return res.status(200).send({ message: `Successfully update data id=${id}`})
+                
+                }else{
+                    return res.status(200).send({ message: `Successfully update data id=${id}`})
                 }
+            }else{
+                return res.status(200).send({ message: `Successfully update data id=${id}`})
             }
-            return res.status(200).send({ message: `Successfully update data id=${id}`})
         })
         // Error handling
         .catch(error => {
@@ -69,10 +75,7 @@ const usersController = {
     remove: (req, res) => {
         return usersModel.remove(req.params.id)
             .then((result) => {
-                // console.log(result);
-                // console.log(result.rows[0].img_profile);
                 for (let i = 0; i < result.length; i++) {
-                    // console.log(`public/uploads/images/${result[i].img_profile}`);
                     unlink(`public/uploads/images/${result[i].img}`, (err) => {
                         if (err) throw err;
                     });

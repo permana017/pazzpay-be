@@ -13,16 +13,16 @@ const authModel = {
           return reject(err.message);
         } else {
           if (result.rows.length == 0) {
-            return reject("email or password wrong");
+            return reject("email or password not valid");
           } else {
             bcrypt.compare(
               password,
               result.rows[0].password,
               function (err, hashingResult) {
                 if (err) {
-                  return reject("email or password wrong");
+                  return reject("email or password not valid");
                 } else if (!hashingResult) {
-                  return reject("email or password wrong");
+                  return reject("email or password not valid");
                 } else {
                   return resolve(result.rows[0]);
                 }
