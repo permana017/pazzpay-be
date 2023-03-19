@@ -11,9 +11,6 @@ To get the Node server running locally:
 * `npm install` to install all required dependencies
 * `node index.js` to start the local server
 
-## DB Structure
-
-Open [schema](https://drawsql.app/teams/array/diagrams/copy-of-auth-db)
 
 ## Folder Structure
 
