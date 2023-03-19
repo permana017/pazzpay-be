@@ -49,14 +49,14 @@ users endpoint
 auth endpoint
 
     POST      /api/auth/login-user
-    POST      /auth/regis-user
+    POST      /api/auth/regis-user
 
 transaction endpoint
 
-    GET      /transaction/transfer
-    POST     /transaction/transfer:id
-    PATCH    /transaction/transfer:id
-    DEL      /transaction/transfer:id
+    GET      /api/transaction/transfer
+    POST     /api/transaction/transfer:id
+    PATCH    /api/transaction/transfer:id
+    DEL      /api/transaction/transfer:id
     
 
 when put under a domain with `prefix`, it would look like:
