@@ -1,11 +1,11 @@
 const authModel = require("../model/auth.model.js");
-const {formResponse} = require("../../helper/index");
+const { formResponse } = require("../../helper/index");
 
 const bcrypt = require("bcrypt");
 
 const jwt = require("jsonwebtoken");
 
-const {PRIVATE_KEY} = process.env;
+const { PRIVATE_KEY } = process.env;
 const authController = {
     loginuser: (req, res) => {
         return authModel
@@ -29,10 +29,7 @@ const authController = {
             })
             .catch((error) => {
                 //return formResponse(500, error, res);
-
-                return res
-                    .status(500)
-                    .send({message: error});
+                return res.status(400).send({ message: error });
             });
     },
 
@@ -41,9 +38,7 @@ const authController = {
         bcrypt.hash(req.body.password, 10, function (err, hash) {
             //default saltrune=15 atau 10,
             if (err) {
-                return res
-                    .status(500)
-                    .send({message: err.message});
+                return res.status(400).send({ message: err.message });
             } else {
                 const request = {
                     username: req.body.username,
@@ -53,11 +48,11 @@ const authController = {
                 }
                 console.log("data request", request.password);
                 if (request.username === "" || request.email === "" || request.phone_number === "") {
-                    return res.status(500).send({message: "please complete your data"});
+                    return res.status(400).send({ message: "please complete your data" });
                 } else {
                     let pw = req.body.password
                     if (pw.length < 8) {
-                        return res.status(500).send({message: "Password Not Scured"});
+                        return res.status(400).send({ message: "Password Not Scured" });
                     } else {
                         return authModel.registeruser(request)
                             .then((result) => {
@@ -65,9 +60,9 @@ const authController = {
                             })
                             .catch((error) => {
                                 if (error.code == "23505") {
-                                    return res.status(500).send({message: "Email or Username Already Exist"});
+                                    return res.status(400).send({ message: "Email or Username Already Exist" });
                                 }
-                                return res.status(500).send({message: error});
+                                return res.status(400).send({ message: error });
                             });
                     }
                 }
