@@ -1,2 +1,4 @@
 public\uploads\images
 node_modules
+.env
+
