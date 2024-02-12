@@ -9,37 +9,31 @@ const transferController = {
             .then((result) => {
                 return res.status(200).send({ message: "Success", data: result })
             }).catch((error) => {
-                return res.status(500).send(error)
+                return res.status(400).send(error)
             })
     },
 
 
-  create: async (req, res) => {
-    const request = {
-        ...req.body
-    }
-    try {
-        const resultUserById = await usersModel.readDetail(request.sender_id)
-        // console.log("saldo awal",resultUserById.saldo)
-
-        if(request.amount >= resultUserById.saldo) {
-            return res.status(500).send({
-                message: 'saldo tidak cukup'
-            })
+    create: async (req, res) => {
+        const request = {
+            ...req.body
         }
-        const result = await transferModel.updateBalance(request)
-        return res.status(201).send({data: result })
+        try {
+            const resultUserById = await usersModel.readDetail(request.sender_id)
+            // console.log("saldo awal",resultUserById.saldo)
 
-    } catch (error) {
-        return res.status(500).send(error)
-    }
-    // return transferModel.create(request)
-    //     .then((result) => {
-    //         return res.status(201).send({data: result })
-    //     }).catch((error) => {
-    //         return res.status(500).send(error)
-    //     })
-  },
+            if (request.amount >= resultUserById.saldo) {
+                return res.status(400).send({
+                    message: 'saldo tidak cukup'
+                })
+            }
+            const result = await transferModel.updateBalance(request)
+            return res.status(201).send({ data: result })
+
+        } catch (error) {
+            return res.status(500).send(error)
+        }
+    },
 
 };
 
